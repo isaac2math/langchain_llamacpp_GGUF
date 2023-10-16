@@ -124,75 +124,58 @@ sudo usermod -aG docker $USER
 docker run --rm --gpus all nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04 nvidia-smi
 ```
 
-- Clone the repo:
+- Clone the repo to `/root` folder for public accessibility:
  
 ```sh
+sudo -s
+
+mkdir -p /root/source
+mkdir -p /root/doc-sum
+mkdir -p /root/doc-sum/error
+mkdir -p /root/doc-sum/in
+mkdir -p /root/doc-sum/log
+mkdir -p /root/doc-sum/model
+mkdir -p /root/doc-sum/out
+mkdir -p /root/doc-sum/process
+
+cd /root/source 
+
 git clone https://github.com/isaac2math/langchain_llamacpp_GGUF.git
 ```
 
-- Download pretrained-LLM
+- Download a pretrained-LLM (make sure you are using the smallest model for testing purpose)
 
 ```sh
-mkdir -p data/feature data/raw data/transform models
-bash model/model_download.sh
+cd /root/doc-sum/model 
+wget https://huggingface.co/TheBloke/Mistral-7B-v0.1-GGUF/resolve/main/mistral-7b-v0.1.Q2_K.gguf
 ```
 
-### Data Preprocessing
-
-- tba
-
-### Training
-
-- tba
-
-### Fine-tuning
-
-- tba
-
-### Pruning
-
-- tba
-
-### Quantization
-
-- tba
-
-### Inference Deployment
-
-- Create a vectorstore using word embedding from the documents in `data/feature`
-    ```sh
-    python src/embed.py
-    ```
-
-- Make inferences and give instructions based on the vectorstore in `data/vectorstore`
-    ```python
-    python src/inference.py
-    ```
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
+- Docker operations
+  - docker build using `/root/source/langchain_llamacpp_GGUF/Dockerfile`
+  - install docker-compose `apt install docker-compose`
+  - docker-compose using `/root/source/langchain_llamacpp_GGUF/docker-compose.yml`
+  - *Doc Flow*
+    - the raw txt goes to `/root/doc-sum/in`
+    - the processed one will be moved to `/root/doc-sum/process`
+    - the one causing error will be moved to `/root/doc-sum/error`
+    - the one with successful summarization will be moved to `/root/doc-sum/out`
+    - the log will be saved at `/root/doc-sum/log`
 
 #### Usage
 
-- This repo is a PoC for in-house and offline LLM application
-- Currently this repo relies on 
-  - `langchain` : 
-  - `llama-cpp` : 
-  - `chroma` : 
-  - `sbert` : 
-  - `gpt4all` :
+- Currently this repo relies on
+  - `langchain`
+  - `llama-cpp`
+  - `chroma`
+  - `sbert`
 
 
 #### Roadmap
 
-- [ ] Replace Python with Cuda-cpp
-- [ ] Feed your own data inflow for training and finetuning
-- [ ] Pruning and Quantization
-
-
-#### License
-
-Distributed under the GNU General Public License v3.0 License. See `LICENSE.txt` for more information.
+- [x] Replace GGML with GGUF
+- [x] Use NV-GPU for knowledge graph decomposition for speedup
+- [x] Balance the CPU-GPU workload
+- [ ] Customize prompts 
 
 
 #### Contact
