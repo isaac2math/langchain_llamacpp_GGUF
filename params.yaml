@@ -1,0 +1,11 @@
+inference: 
+    EMBEDDINGS_MODEL_NAME: all-MiniLM-L6-v2
+    SOURCE_DIRECTORY: data/feature
+    CHROMA_DB_IMPL: duckdb+parquet
+    PERSIST_DIRECTORY: data/vectorstore
+    ANONYMIZED_TELEMETRY: False
+    CHUNK_SIZE: 500
+    CHUNK_OVERLAP: 50
+    MODEL_TYPE: GPT4All
+    MODEL_PATH: models/ggml-gpt4all-j-v1.3-groovy.bin
+    MODEL_N_CTX: 1000

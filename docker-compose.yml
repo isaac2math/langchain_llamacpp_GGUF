@@ -1,0 +1,32 @@
+version: '3'
+services:
+  worker-node1: &base
+    container_name: worker-1
+    image: doc-sum:0.0.2
+    volumes:
+      - /root/doc-sum:/root/doc-sum
+    environment:
+      ADD_DIR: /root/doc-sum
+      MODEL_NAME: "wizardlm-70b-v1.0.Q4_K_M.gguf"
+      N_GPU_LAYERS: 40
+      N_BATCH: 512
+      N_THREADS: 12
+      N_CTX: 16000
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: [ "0" ]
+              capabilities: [ gpu ]
+
+  worker-node2:
+    <<: *base
+    container_name: worker-2
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: [ "1" ]
+              capabilities: [ gpu ]

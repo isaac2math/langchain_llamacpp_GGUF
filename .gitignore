@@ -1,0 +1,8 @@
+.DS_Store
+src/__pycache__
+model_dir/
+local/
+.idea/
+.env
+compose.*local.yml
+docker-compose.*local.yml

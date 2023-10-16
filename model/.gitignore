@@ -1,0 +1,4 @@
+.DS_Store
+*.bin
+llama-2-13b-GPTQ/
+Llama-2-7B-GPTQ/
